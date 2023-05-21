@@ -1,0 +1,78 @@
+[gd_scene load_steps=13 format=3 uid="uid://b8jpkcbqsv3vy"]
+
+[ext_resource type="Texture2D" uid="uid://cyfj345sxfrbp" path="res://Assets/Weapons/Bomb_1_Explosion_000.png" id="1_sq50p"]
+[ext_resource type="Script" path="res://bomb_weapon.cs" id="1_xambi"]
+[ext_resource type="Texture2D" uid="uid://cup70n10k81gt" path="res://Assets/Weapons/Bomb_1_Explosion_001.png" id="2_lj3on"]
+[ext_resource type="Texture2D" uid="uid://c84570i30qk2n" path="res://Assets/Weapons/Bomb_1_Explosion_002.png" id="3_7a3va"]
+[ext_resource type="Texture2D" uid="uid://ln17kgdil6ly" path="res://Assets/Weapons/Bomb_1_Explosion_003.png" id="4_mvku7"]
+[ext_resource type="Texture2D" uid="uid://dh1p81ghocltt" path="res://Assets/Weapons/Bomb_1_Explosion_004.png" id="5_x246i"]
+[ext_resource type="Texture2D" uid="uid://dthx5i0bs2f7b" path="res://Assets/Weapons/Bomb_1_Explosion_005.png" id="6_uma40"]
+[ext_resource type="Texture2D" uid="uid://c3ut8j3ty5oup" path="res://Assets/Weapons/Bomb_1_Explosion_006.png" id="7_aeva6"]
+[ext_resource type="Texture2D" uid="uid://dm7oe6rn7p5a4" path="res://Assets/Weapons/Bomb_1_Explosion_007.png" id="8_8ri7y"]
+[ext_resource type="Texture2D" uid="uid://d4hq6jl2ytuux" path="res://Assets/Weapons/Bomb_1_Explosion_008.png" id="9_hdpdq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m8n8s"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": ExtResource("1_sq50p")
+}, {
+"duration": 2.0,
+"texture": ExtResource("2_lj3on")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7a3va")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_mvku7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_x246i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_uma40")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_aeva6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_8ri7y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_hdpdq")
+}],
+"loop": false,
+"name": &"bombExplode",
+"speed": 16.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hbyao"]
+radius = 100.0
+height = 320.0
+
+[node name="BombWeapon" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 4
+mass = 20.0
+gravity_scale = 10.25
+angular_velocity = 10.0
+angular_damp_mode = 1
+script = ExtResource("1_xambi")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_m8n8s")
+animation = &"bombExplode"
+frame = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.1, 0.1)
+shape = SubResource("CapsuleShape2D_hbyao")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

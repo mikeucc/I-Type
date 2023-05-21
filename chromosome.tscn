@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://culab3u6in1ly"]
+
+[ext_resource type="Script" path="res://Chromosome.cs" id="1_03uow"]
+
+[node name="Chromosome" type="Node"]
+script = ExtResource("1_03uow")
+xVel = 10.0
+yVel = 10.0
+fireRate = 10.0
+fireArc = 10.0
+fireJitter = 10.0
+detectionRange = 10.0
+detectionArc = 10.0
+timeSurvived = 10.0
+didSurvive = 10.0
+hitsTaken = 10.0
+hitsApplied = 10.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+
+[connection signal="timeout" from="Timer" to="." method="evolvePopulation"]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://ledduj6krwie"]
+
+[ext_resource type="Texture2D" uid="uid://dvh5ku1dx5stk" path="res://Assets/Particle2D/glowing_circle.png" id="1_jema5"]
+[ext_resource type="Script" path="res://bullet.cs" id="1_wqsjp"]
+[ext_resource type="PackedScene" uid="uid://certx7ao01wwy" path="res://hit_box_component.tscn" id="3_ygltx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o3aa0"]
+
+[node name="Bullet" type="Node2D"]
+script = ExtResource("1_wqsjp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_jema5")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("3_ygltx")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+shape = SubResource("CircleShape2D_o3aa0")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="LeftScreen"]

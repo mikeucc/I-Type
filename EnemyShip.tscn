@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://b1qapbgffpuwh"]
+
+[ext_resource type="Script" path="res://EnemyShip.cs" id="1_cf85x"]
+[ext_resource type="PackedScene" uid="uid://certx7ao01wwy" path="res://hit_box_component.tscn" id="4_ijulj"]
+[ext_resource type="Texture2D" uid="uid://chbhxpmnjfk85" path="res://Assets/Ships/EnemyShip.png" id="5_eswc5"]
+[ext_resource type="PackedScene" uid="uid://ccydtx573d8q7" path="res://velocity_component.tscn" id="5_v37ec"]
+[ext_resource type="PackedScene" uid="uid://buispxsi8ujuu" path="res://path_find_component.tscn" id="6_4v25u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rsbbd"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ti7cj"]
+radius = 17.0
+height = 62.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_lu1xq"]
+vertices = PackedVector2Array(-1, -2, 1923, -2, 1922, 1000, 1, 999)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(1, 999, 1922, 1000, 1923, -2, -1, -2)])
+
+[node name="EnemyShip" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_cf85x")
+
+[node name="EnemyShip" type="Sprite2D" parent="."]
+texture = ExtResource("5_eswc5")
+flip_h = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(17, -17.9, 17, -16, 32, -3.8, 32, 5, 30.8, 5, 20.8, 15, 18.2, 15, -13, 18.2, -13, 16.1, -32, 4.3, -32, -5.1, -25.9, -12, -23.6, -12, -14, -17.3, -14, -19.1)
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_rsbbd")
+
+[node name="Turret" type="Node2D" parent="."]
+position = Vector2(-32, 0)
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="HitBoxComponent" parent="." instance=ExtResource("4_ijulj")]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxComponent"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ti7cj")
+
+[node name="VelocityComponent" parent="." instance=ExtResource("5_v37ec")]
+
+[node name="PathFindComponent" parent="." node_paths=PackedStringArray("velocityComponent") instance=ExtResource("6_4v25u")]
+velocityComponent = NodePath("../VelocityComponent")
+
+[node name="Nav2DAgent" type="NavigationAgent2D" parent="."]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Nav2DAgent"]
+navigation_polygon = SubResource("NavigationPolygon_lu1xq")
+
+[node name="IntervalTimer" type="Timer" parent="."]
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="timeout" from="Timer" to="." method="Fire"]

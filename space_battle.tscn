@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://tnr3mjbotx3j"]
+
+[ext_resource type="Texture2D" uid="uid://dxihe5cw0qhac" path="res://Assets/Background/1.png" id="1_ho718"]
+[ext_resource type="Script" path="res://ParallaxBackground.cs" id="1_ojkp4"]
+[ext_resource type="Texture2D" uid="uid://dsalaje6fnrmh" path="res://Assets/Background/2.png" id="2_r5lbo"]
+[ext_resource type="Texture2D" uid="uid://brb0dwt15bt77" path="res://Assets/Background/3.png" id="3_2t24d"]
+[ext_resource type="Texture2D" uid="uid://c11dk36kq00lj" path="res://Assets/Background/4.png" id="4_ou3u3"]
+[ext_resource type="Texture2D" uid="uid://bkm45c3v1ueoi" path="res://Assets/Background/5.png" id="5_i765a"]
+[ext_resource type="PackedScene" uid="uid://bmhro63uhr2rx" path="res://PlayerShip.tscn" id="7_aqdy5"]
+[ext_resource type="PackedScene" uid="uid://culab3u6in1ly" path="res://chromosome.tscn" id="8_g1ir7"]
+
+[node name="SpaceBattle" type="Node"]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Node2D"]
+script = ExtResource("1_ojkp4")
+
+[node name="Sky" type="ParallaxLayer" parent="Node2D/ParallaxBackground"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ParallaxBackground/Sky"]
+texture = ExtResource("1_ho718")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="Node2D/ParallaxBackground"]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ParallaxBackground/ParallaxLayer2"]
+texture = ExtResource("2_r5lbo")
+centered = false
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="Node2D/ParallaxBackground"]
+motion_scale = Vector2(0.4, 0.4)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ParallaxBackground/ParallaxLayer3"]
+position = Vector2(0, 2)
+texture = ExtResource("3_2t24d")
+centered = false
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Node2D/ParallaxBackground"]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ParallaxBackground/ParallaxLayer4"]
+texture = ExtResource("4_ou3u3")
+centered = false
+
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="Node2D/ParallaxBackground"]
+motion_scale = Vector2(20, 20)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D/ParallaxBackground/ParallaxLayer5"]
+collision_layer = 5
+collision_mask = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ParallaxBackground/ParallaxLayer5/StaticBody2D"]
+texture = ExtResource("5_i765a")
+centered = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Node2D/ParallaxBackground/ParallaxLayer5/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(1410.2, 989, 1576, 989, 1718, 986, 1718, 987, 1919, 989, 1919, 1079, 1, 1079, 1, 989, 9, 989, 217, 998, 217, 999.1, 277.2, 1004, 311.7, 1004, 415, 990.7, 415, 992.2, 618, 1011.8, 618, 1011.2, 798.9, 992, 823.1, 992, 868, 996.2, 868, 997.3, 914.4, 1007, 931, 1007, 931, 1006.4, 961, 1000.3, 961, 999.6, 1018.7, 980, 1030, 980, 1201, 981, 1201, 980.2, 1232, 976.2, 1232, 974.8)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Node2D/ParallaxBackground/ParallaxLayer5/StaticBody2D"]
+position = Vector2(1920, 0)
+build_mode = 1
+polygon = PackedVector2Array(1410.2, 989, 1576, 989, 1718, 986, 1718, 987, 1919, 989, 1919, 1079, 1, 1079, 1, 989, 9, 989, 217, 998, 217, 999.1, 277.2, 1004, 311.7, 1004, 415, 990.7, 415, 992.2, 618, 1011.8, 618, 1011.2, 798.9, 992, 823.1, 992, 868, 996.2, 868, 997.3, 914.4, 1007, 931, 1007, 931, 1006.4, 961, 1000.3, 961, 999.6, 1018.7, 980, 1030, 980, 1201, 981, 1201, 980.2, 1232, 976.2, 1232, 974.8)
+
+[node name="PlayerShip" parent="." instance=ExtResource("7_aqdy5")]
+
+[node name="Chromosome" parent="." instance=ExtResource("8_g1ir7")]
+xVel = 100.0
+yVel = 20.0
+detectionRange = 15.0
+
+[node name="Timer" parent="Chromosome" index="0"]
+wait_time = 5.0
+autostart = true
+
+[editable path="Chromosome"]
